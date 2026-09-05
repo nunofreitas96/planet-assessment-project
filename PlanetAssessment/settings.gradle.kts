@@ -1,4 +1,7 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
 rootProject.name = "PlanetAssessment"
+
+include(
+    "adapters",
+    "application",
+    "domain"
+)

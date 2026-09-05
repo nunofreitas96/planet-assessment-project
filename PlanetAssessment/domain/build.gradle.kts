@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.4.10"
+    kotlin("jvm")
 }
 
 group = "org.example"
@@ -9,10 +9,9 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation(kotlin("test"))
+kotlin {
+    jvmToolchain(26)
 }
-
 
 tasks.test {
     useJUnitPlatform()
