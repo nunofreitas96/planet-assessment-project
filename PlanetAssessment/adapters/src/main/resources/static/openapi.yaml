@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Planet Assessment REST API
+  version: 1.0.0
+  description: >-
+    OpenAPI specification for uploading CSV files for later processing and for exporting
+    data in CSV, TXT, or XLS/XLSX formats.
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /api/v1/import/csv:
+    post:
+      summary: Upload a CSV file for later processing
+      description: >-
+        Receives a CSV file that will be processed and stored later by the application.
+        This endpoint only accepts the file upload and returns a success/failure result.
+      operationId: uploadCsvFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CsvUploadRequest'
+      responses:
+        '200':
+          description: Upload completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: Invalid request or invalid CSV file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error while accepting the file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/export:
+    get:
+      summary: Export data as CSV, TXT or XLS/XLSX
+      description: >-
+        Returns a file payload based on the requested export format and selected columns.
+      operationId: exportData
+      parameters:
+        - in: query
+          name: format
+          required: true
+          description: Target export format.
+          schema:
+            $ref: '#/components/schemas/ExportFormat'
+        - in: query
+          name: columns
+          required: true
+          description: Comma-separated list of columns to include in the export.
+          schema:
+            type: string
+            example: id,name,email,createdAt
+      responses:
+        '200':
+          description: Export file generated successfully
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Export generation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CsvUploadRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: CSV file to be uploaded and queued for later processing.
+    UploadResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+            - failure
+          description: Indicates whether the upload was accepted or rejected.
+        message:
+          type: string
+          description: Human-readable status message.
+        fileName:
+          type: string
+          nullable: true
+          description: Original uploaded file name when available.
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          example: failure
+        message:
+          type: string
+          example: Invalid CSV format or export parameters.
+    ExportFormat:
+      type: string
+      enum:
+        - csv
+        - txt
+        - xls
+        - xlsx
+      description: Supported export file formats.
