@@ -1,22 +1,16 @@
 plugins {
-    kotlin("jvm")
-}
-
-group = "org.example"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+    id(Plugins.springFrameworkBoot) version Versions.springFramework
+    id(Plugins.springDependencyManagement) version Versions.springDependencyManagement
+    id(Plugins.openApiGenerator) version "7.25.0"
+    id(Plugins.kotlinJvm) version Versions.kotlin
+    id(Plugins.kotlinSpring) version Versions.kotlin
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
-}
+    implementation(project(":domain"))
 
-kotlin {
-    jvmToolchain(26)
-}
+    implementation(SpringBootDependencies.webFlux)
+    implementation(SpringBootDependencies.dataJpa)
 
-tasks.test {
-    useJUnitPlatform()
+    testImplementation(TestDependencies.junitJupiter)
 }
