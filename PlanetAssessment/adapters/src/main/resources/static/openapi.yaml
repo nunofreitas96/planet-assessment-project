@@ -8,9 +8,14 @@ info:
 servers:
   - url: http://localhost:8080
     description: Local development server
+tags:
+  - name: UserFile
+    description: User file upload and export endpoints
 paths:
   /api/v1/import/csv:
     post:
+      tags:
+        - UserFile
       summary: Upload a CSV file for later processing
       description: >-
         Receives a CSV file that will be processed and stored later by the application.
@@ -43,6 +48,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /api/v1/export:
     get:
+      tags:
+        - UserFile
       summary: Export data as CSV, TXT or XLS/XLSX
       description: >-
         Returns a file payload based on the requested export format and selected columns.
