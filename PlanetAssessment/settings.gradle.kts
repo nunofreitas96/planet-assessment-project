@@ -3,5 +3,6 @@ rootProject.name = "PlanetAssessment"
 include(
     "adapters",
     "application",
-    "domain"
+    "domain",
+    "planet-assessment-api"
 )

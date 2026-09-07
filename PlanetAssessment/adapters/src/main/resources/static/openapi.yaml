@@ -20,7 +20,7 @@ paths:
       description: >-
         Receives a CSV file that will be processed and stored later by the application.
         This endpoint only accepts the file upload and returns a success/failure result.
-      operationId: uploadCsvFile
+      operationId: importCsv
       requestBody:
         required: true
         content:

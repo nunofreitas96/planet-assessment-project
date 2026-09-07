@@ -21,14 +21,13 @@ dependencies {
     implementation(project(":application"))
     implementation(project(":domain"))
     implementation(SpringBootDependencies.actuator)
-    implementation(SpringBootDependencies.openApiWebFlux) {
-        exclude(group = "jakarta.validation", module = "jakarta.validation-api")
-    }
+    implementation(SpringBootDependencies.openApiWebFlux)
     implementation(SpringBootDependencies.validation)
     implementation(SpringBootDependencies.webFlux)
     implementation(SpringBootDependencies.aop)
 
     testImplementation(TestDependencies.junitJupiter)
+    implementation("jakarta.servlet:jakarta.servlet-api:6.2.0-M2")
 }
 
 openApiGenerate {
@@ -47,4 +46,9 @@ openApiGenerate {
             "apiNameSuffix" to "Api"
         )
     )
+}
+
+// Disable bootJar for non-executable modules
+tasks.named("bootJar") {
+    enabled = false
 }
