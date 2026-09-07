@@ -25,9 +25,12 @@ dependencies {
     implementation(SpringBootDependencies.validation)
     implementation(SpringBootDependencies.webFlux)
     implementation(SpringBootDependencies.aop)
+    implementation(SpringBootDependencies.dataJpa)
 
     testImplementation(TestDependencies.junitJupiter)
-    implementation("jakarta.servlet:jakarta.servlet-api:6.2.0-M2")
+
+    implementation("jakarta.servlet:jakarta.servlet-api:6.2.0-M2")
+    implementation("org.apache.commons:commons-csv:1.14.1")
 }
 
 openApiGenerate {
