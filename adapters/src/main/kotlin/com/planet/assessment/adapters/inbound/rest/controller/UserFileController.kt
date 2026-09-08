@@ -1,5 +1,6 @@
 package com.planet.assessment.adapters.inbound.rest.controller
 
+import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.user.User
 import com.planetassessment.adapters.api.UserFileApi
 import com.planetassessment.adapters.model.UploadResponse
@@ -13,15 +14,16 @@ import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @RestController
-class UserFileController() : UserFileApi {
+class UserFileController(
+    private val userProcessingServicePort: UserProcessingServicePort
+) : UserFileApi {
 
     @Observed(name = "import.csv")
     override fun importCsv(file: MultipartFile): ResponseEntity<UploadResponse> {
         // service.importCsv(file)
 
         val users = parseUsers(file)
-
-
+        userProcessingServicePort.process(users)
 
         return ResponseEntity.ok(UploadResponse(status = Status.success, message = "File uploaded successfully"))
     }

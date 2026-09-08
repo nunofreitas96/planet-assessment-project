@@ -4,7 +4,9 @@ import com.planet.assessment.application.port.inbound.service.UserProcessingServ
 import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
 import com.planet.assessment.application.validator.UserValidatorFactory
 import com.planet.assessment.user.User
+import org.springframework.stereotype.Service
 
+@Service
 class UserProcessingService(
     private val userPersistencePort: UserPersistencePort,
     private val userValidatorFactory: UserValidatorFactory
