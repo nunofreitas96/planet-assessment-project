@@ -33,20 +33,22 @@ class UserFileController() : UserFileApi {
             .get()
             .parse(file.inputStream.bufferedReader())
 
-        return parser.records.map { record ->
-            User(
-                id = UUID.randomUUID(),
-                externalId = record.get("externalId").toLong(),
-                name = record.getOptional("name"),
-                email = record.getOptional("email"),
-                age = record.getOptional("age")?.toInt(),
-                country = record.getOptional("country"),
-                phone = record.getOptional("phone")
-            )
+        return parser.records.mapNotNull { record ->
+            //TODO - Ensure that missing records are added to error
+            val id = record.getOrNull("id")?.toLongOrNull()
+            id?.let { User(
+                id = id,
+                name = record.getOrNull("name"),
+                email = record.getOrNull("email"),
+                age = record.getOrNull("age"),
+                country = record.getOrNull("country"),
+                phone = record.getOrNull("phone")
+            ) }
+
         }
     }
 
-    private fun CSVRecord.getOptional(column: String): String? {
+    private fun CSVRecord.getOrNull(column: String): String? {
         return if( this.isMapped(column)) {
             this.get(column)
         } else {

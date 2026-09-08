@@ -9,10 +9,9 @@ object UserMapper {
     fun User.toEntity(): UserEntity {
         return UserEntity(
             id = this.id,
-            externalId = this.externalId,
             name = this.name,
             email = this.email,
-            age = this.age,
+            age = this.age?.toInt(),
             country = this.country,
             phone = this.phone
         )
@@ -21,10 +20,9 @@ object UserMapper {
     fun UserEntity.toInternalModel(): User {
         return User(
             id = this.id,
-            externalId = this.externalId,
             name = this.name,
             email = this.email,
-            age = this.age,
+            age = this.age?.toString(),
             country = this.country,
             phone = this.phone
         )

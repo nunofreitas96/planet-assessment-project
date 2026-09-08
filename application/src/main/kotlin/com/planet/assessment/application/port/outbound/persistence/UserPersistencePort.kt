@@ -4,5 +4,5 @@ import com.planet.assessment.user.User
 
 interface UserPersistencePort {
     fun save(user: User): User
-    fun findByExternalId(externalId: Long): User?
+    fun findById(id: Long): User?
 }

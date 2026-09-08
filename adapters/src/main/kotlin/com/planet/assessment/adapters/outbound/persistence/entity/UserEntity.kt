@@ -11,12 +11,9 @@ import java.util.UUID
 @Entity
 @Table(name = "users")
 data class UserEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: UUID = UUID.randomUUID(),
 
-    @Column(nullable = false, unique = true)
-    val externalId: Long,
+    @Id
+    val id: Long,
 
     @Column(nullable = true, unique = false)
     val name: String? = null,

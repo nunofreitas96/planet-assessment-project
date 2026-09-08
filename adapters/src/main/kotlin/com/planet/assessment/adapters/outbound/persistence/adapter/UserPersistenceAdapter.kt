@@ -15,8 +15,8 @@ class UserPersistenceAdapter(
         return userRepository.save(user.toEntity()).toInternalModel()
     }
 
-    override fun findByExternalId(externalId: Long): User? {
-        return userRepository.findByExternalId(externalId)?.toInternalModel()
+    override fun findById(id: Long): User? {
+        return userRepository.findById(id).orElse(null)?.toInternalModel()
     }
 
 }
