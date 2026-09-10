@@ -19,4 +19,8 @@ class UserPersistenceAdapter(
         return userRepository.findById(id).orElse(null)?.toInternalModel()
     }
 
+    override fun findAll(): List<User> {
+        return userRepository.findAll().map { it.toInternalModel() }
+    }
+
 }

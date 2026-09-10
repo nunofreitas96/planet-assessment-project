@@ -13,4 +13,8 @@ dependencies {
     implementation("commons-validator:commons-validator:1.10.0")
     implementation("com.googlecode.libphonenumber:libphonenumber:9.0.38")
 
+    implementation("org.apache.commons:commons-csv:1.14.1")
+    implementation("org.apache.poi:poi:5.5.1")
+    implementation("org.apache.poi:poi-ooxml:5.5.1")
+
 }
