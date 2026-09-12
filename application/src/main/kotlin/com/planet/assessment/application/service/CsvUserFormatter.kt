@@ -20,7 +20,6 @@ class CsvUserFormatter : UserFormatterPort {
     override fun format(users: List<User>, columns: List<ExportColumn>): Resource {
         val output = ByteArrayOutputStream()
 
-        //TODO - Add Exception handling for empty columns list
         val columnsString = columns.map { it.name }.toTypedArray()
         OutputStreamWriter(output, Charsets.UTF_8).use { writer ->
             CSVPrinter(
