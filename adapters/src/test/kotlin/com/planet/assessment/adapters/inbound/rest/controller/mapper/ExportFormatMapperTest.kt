@@ -12,7 +12,6 @@ import java.util.stream.Stream
 import org.springframework.http.MediaType
 import org.junit.jupiter.api.Assertions.assertEquals
 
-@DisplayName("ExportFormatMapper tests")
 class ExportFormatMapperTest {
 
     companion object {
