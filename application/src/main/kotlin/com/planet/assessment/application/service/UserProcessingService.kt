@@ -2,6 +2,7 @@ package com.planet.assessment.application.service
 
 import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
+import com.planet.assessment.application.validator.UserValidatorBeanFactory
 import com.planet.assessment.application.validator.UserValidatorFactory
 import com.planet.assessment.user.User
 import org.springframework.stereotype.Service
@@ -12,15 +13,22 @@ class UserProcessingService(
     private val userValidatorFactory: UserValidatorFactory
 ) : UserProcessingServicePort {
 
+    private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
+
     override fun process(users: List<User>) {
+        val validators = userValidatorFactory.getValidatorList(users.first())
+
         users.forEach { user ->
-            userValidatorFactory.getValidatorList(user).forEach { validator ->
-                if(!validator.validate(user)) return
-            }
+            if(!validators.all { validator ->
+                validator.validate(user)
+            }) return@forEach
+
             val existingUser = userPersistencePort.findById(user.id)
             if (existingUser != null) {
                 consolidateUser(existingUser = existingUser, newUser = user)
-
+                logger.info("Updating user with id ${user.id}")
+            } else {
+                logger.info("Saving user with id ${user.id}")
             }
             userPersistencePort.save(user)
         }

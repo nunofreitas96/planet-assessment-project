@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":domain"))
     implementation("org.springframework.boot:spring-boot-starter-web:4.1.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
+    implementation("org.slf4j:slf4j-api:2.0.17")
     implementation(SpringBootDependencies.actuator)
     implementation(SpringBootDependencies.validation)
     implementation(SpringBootDependencies.aop)
