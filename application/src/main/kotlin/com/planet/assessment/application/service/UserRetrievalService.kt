@@ -22,7 +22,6 @@ class UserRetrievalService (
     ): Resource {
         val users = userPersistencePort.findAll()
 
-        //TODO - ADD exception handling
         val formatter = formatterByExportFormat[format]!!
 
         return formatter.format(users, columns)
