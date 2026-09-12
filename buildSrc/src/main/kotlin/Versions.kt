@@ -1,11 +1,11 @@
 object Versions {
 
-    const val springFramework = "3.3.13"
+    const val springFramework = "4.1.0"
     const val springDependencyManagement = "1.1.0"
     const val springDocOpenApiForWebFlux = "2.0.4"
-    const val springValidation = "2.7.9"
+    const val springValidation = "4.1.0"
     const val springAspects = "6.0.11"
-    const val springKafka = "3.3.13"
+    const val springKafka = "4.1.0"
 
     const val kotlin = "2.4.10"
 

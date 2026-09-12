@@ -13,6 +13,8 @@ import io.micrometer.observation.annotation.Observed
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
 import org.springframework.core.io.Resource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -51,9 +53,18 @@ class UserFileController(
             ExportFormat.xlsx -> DomainExportFormat.XLSX
         }
 
+        val mediaType = when (format) {
+            ExportFormat.csv -> MediaType.parseMediaType("text/csv")
+            ExportFormat.txt -> MediaType.TEXT_PLAIN
+            ExportFormat.xls -> MediaType.parseMediaType("application/vnd.ms-excel")
+            ExportFormat.xlsx -> MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        }
+
         val resource = userRetrievalServicePort.retrieveUsers(domainFormat, selectedColumns)
 
-        return ResponseEntity.ok(resource)
+        return ResponseEntity.ok().contentType(mediaType)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=export.${format.value}")
+            .body(resource)
     }
 
 
@@ -65,7 +76,7 @@ class UserFileController(
             .parse(file.inputStream.bufferedReader())
 
         return parser.records.mapNotNull { record ->
-            //TODO - Ensure that missing records are added to error
+            //TODO - Ensure that missing records are added to error, including empty fields
             val id = record.getOrNull("id")?.toLongOrNull()
             id?.let { User(
                 id = id,
