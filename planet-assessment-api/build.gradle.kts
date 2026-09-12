@@ -12,8 +12,10 @@ dependencies {
     implementation(project(":application"))
 
 
-    implementation(SpringBootDependencies.webFlux)
+    implementation("org.springframework.boot:spring-boot-starter-web:4.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.1")
     implementation(SpringBootDependencies.dataJpa)
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation(TestDependencies.junitJupiter)
 }

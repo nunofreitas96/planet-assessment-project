@@ -1,0 +1,12 @@
+.git
+.gitignore
+.gradle
+.idea
+.kotlin
+build
+**/build
+**/.gradle
+**/out
+**/target
+Dockerfile
+README.md

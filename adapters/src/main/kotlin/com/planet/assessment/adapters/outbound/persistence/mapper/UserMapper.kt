@@ -11,7 +11,8 @@ object UserMapper {
             id = this.id,
             name = this.name,
             email = this.email,
-            age = this.age?.toInt(),
+            //TODO - Add actual validation
+            age = this.age?.toIntOrNull(),
             country = this.country,
             phone = this.phone
         )
@@ -19,7 +20,7 @@ object UserMapper {
 
     fun UserEntity.toInternalModel(): User {
         return User(
-            id = this.id,
+            id = this.id!!,
             name = this.name,
             email = this.email,
             age = this.age?.toString(),
