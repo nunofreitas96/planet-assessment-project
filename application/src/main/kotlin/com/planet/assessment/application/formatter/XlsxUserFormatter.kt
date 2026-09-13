@@ -1,25 +1,25 @@
-package com.planet.assessment.application.service
+package com.planet.assessment.application.formatter
 
 import com.planet.assessment.application.port.inbound.service.ExcelTypeUserFormatterPort
 import com.planet.assessment.application.port.inbound.service.UserFormatterPort
 import com.planet.assessment.column.ExportColumn
-import com.planet.assessment.format.ExportFormat.XLS
+import com.planet.assessment.format.ExportFormat.XLSX
 import com.planet.assessment.user.User
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Component
 
 @Component
-class XlsUserFormatter(
+class XlsxUserFormatter(
     private val excelTypeUserFormatter: ExcelTypeUserFormatterPort
 ) : UserFormatterPort {
 
-    override val format = XLS
+    override val format = XLSX
     override fun format(
         users: List<User>,
         columns: List<ExportColumn>
     ): Resource {
-        val workbook = HSSFWorkbook()
+        val workbook = XSSFWorkbook()
 
         return excelTypeUserFormatter.format(workbook, users, columns)
     }
