@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm") version "2.4.10"
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "com.planet.assessment"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 
-    implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation(LoggerDependencies.slf4j)
     testImplementation(kotlin("test"))
 }
 
