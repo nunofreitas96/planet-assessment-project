@@ -1,6 +1,7 @@
 package com.planet.assessment.application.validator
 
-import com.planet.assessment.user.User
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.buildUser
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
@@ -13,7 +14,7 @@ class UserValidatorFactoryTest {
         val v1 = mock<UserValidator>()
         val v2 = mock<UserValidator>()
 
-        val user = User(id = 1L, name = "A")
+        val user = buildUser(id = 1L, name = DEFAULT_NAME)
 
         whenever(v1.shouldValidate(user)).thenReturn(true)
         whenever(v2.shouldValidate(user)).thenReturn(false)

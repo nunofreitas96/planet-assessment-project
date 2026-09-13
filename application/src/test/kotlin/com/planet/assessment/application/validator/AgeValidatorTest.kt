@@ -1,5 +1,8 @@
 package com.planet.assessment.application.validator
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_AGE
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -12,25 +15,22 @@ class AgeValidatorTest {
 
     private val validator = AgeValidator()
 
-    @Test
-    fun `shouldValidate returns false when age is null`() {
-        val user = User(id = 1L)
-        assertFalse(validator.shouldValidate(user))
-    }
-
     companion object {
         @JvmStatic
         fun provideAges(): Stream<Arguments> = Stream.of(
-            Arguments.of("25", true),
-            Arguments.of("", false),
-            Arguments.of("abc", false)
+            Arguments.of(DEFAULT_AGE, true, true),
+            Arguments.of("", false, true),
+            Arguments.of("abc", false, true),
+            Arguments.of(null, false, false)
         )
     }
 
     @ParameterizedTest
     @MethodSource("provideAges")
-    fun `validate various ages`(age: String, expected: Boolean) {
-        val user = User(id = 1L, age = age)
-        assertEquals(expected, validator.validate(user))
+    fun `validate various ages`(age: String?, expected: Boolean, shouldValidateExpected: Boolean) {
+        val user = buildUser(id = 1L, age = age)
+        assertEquals(shouldValidateExpected, validator.shouldValidate(user))
+        if(shouldValidateExpected)
+            assertEquals(expected, validator.validate(user))
     }
 }

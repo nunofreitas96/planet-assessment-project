@@ -1,5 +1,8 @@
 package com.planet.assessment.application.validator
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,14 +19,14 @@ class NameValidatorTest {
         fun provideNames(): Stream<Arguments> = Stream.of(
             Arguments.of(null as String?, false, false),
             Arguments.of("", true, false),
-            Arguments.of("Nuno", true, true)
+            Arguments.of(DEFAULT_NAME, true, true)
         )
     }
 
     @ParameterizedTest
     @MethodSource("provideNames")
     fun `name validation scenarios`(name: String?, shouldValidateExpected: Boolean, validateExpected: Boolean) {
-        val user = User(id = 1L, name = name)
+        val user = buildUser(id = 1L, name = name)
         assertEquals(shouldValidateExpected, validator.shouldValidate(user))
         if (shouldValidateExpected) {
             assertEquals(validateExpected, validator.validate(user))

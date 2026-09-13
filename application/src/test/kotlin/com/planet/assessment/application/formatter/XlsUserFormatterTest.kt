@@ -1,5 +1,8 @@
 package com.planet.assessment.application.formatter
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.application.port.inbound.service.ExcelTypeUserFormatterPort
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.user.User
@@ -18,7 +21,7 @@ class XlsUserFormatterTest {
     @Test
     fun `format should delegate to ExcelTypeUserFormatter with HSSFWorkbook and return resource`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME)
-        val users = listOf(User(id = 1L, name = "Alice"))
+        val users = listOf(buildUser(id = 1L, name = DEFAULT_NAME))
 
         val expected = ByteArrayResource("xls".toByteArray())
         whenever(delegate.format(any(), any(), any())).thenReturn(expected)
@@ -29,6 +32,6 @@ class XlsUserFormatterTest {
 
         val wbCaptor = argumentCaptor<Workbook>()
         verify(delegate).format(wbCaptor.capture(), eq(users), eq(columns))
-        assertTrue(wbCaptor.firstValue is HSSFWorkbook, "Expected HSSFWorkbook to be passed to delegate")
+        assertTrue(wbCaptor.firstValue is HSSFWorkbook)
     }
 }

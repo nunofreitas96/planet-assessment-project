@@ -1,5 +1,13 @@
 package com.planet.assessment.adapters.outbound.persistence.mapper
 
+import com.planet.assessment.adapters.TestUtils.BLANK_COLUMN
+import com.planet.assessment.adapters.TestUtils.DEFAULT_AGE
+import com.planet.assessment.adapters.TestUtils.DEFAULT_AGE_COLUMN
+import com.planet.assessment.adapters.TestUtils.DEFAULT_COUNTRY
+import com.planet.assessment.adapters.TestUtils.DEFAULT_EMAIL
+import com.planet.assessment.adapters.TestUtils.DEFAULT_NAME
+import com.planet.assessment.adapters.TestUtils.DEFAULT_PHONE
+import com.planet.assessment.adapters.TestUtils.WRONG_AGE
 import com.planet.assessment.adapters.outbound.persistence.entity.UserEntity
 import com.planet.assessment.adapters.outbound.persistence.mapper.UserMapper.toEntity
 import com.planet.assessment.adapters.outbound.persistence.mapper.UserMapper.toInternalModel
@@ -15,15 +23,15 @@ class UserMapperTest {
     companion object {
         @JvmStatic
         fun provideUsersForToEntity(): Stream<Arguments> = Stream.of(
-            Arguments.of(User(id = 1L, name = "Alice", email = "a@b.com", age = "25", country = "PT", phone = "912345678"), 25),
+            Arguments.of(User(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL, age = DEFAULT_AGE_COLUMN, country = DEFAULT_COUNTRY, phone = DEFAULT_PHONE), DEFAULT_AGE),
             Arguments.of(User(id = 2L, name = null, email = null, age = null, country = null, phone = null), null),
-            Arguments.of(User(id = 3L, age = "abc"), null),
-            Arguments.of(User(id = 4L, age = ""), null)
+            Arguments.of(User(id = 3L, age = WRONG_AGE), null),
+            Arguments.of(User(id = 4L, age = BLANK_COLUMN), null)
         )
 
         @JvmStatic
         fun provideEntitiesForToInternalModel(): Stream<Arguments> = Stream.of(
-            Arguments.of(UserEntity(id = 1L, name = "Alice", email = "a@b.com", age = 25, country = "PT", phone = "912345678"), "25"),
+            Arguments.of(UserEntity(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL, age = DEFAULT_AGE, country = DEFAULT_COUNTRY, phone = DEFAULT_PHONE), DEFAULT_AGE_COLUMN),
             Arguments.of(UserEntity(id = 2L, name = null, email = null, age = null, country = null, phone = null), null)
         )
     }

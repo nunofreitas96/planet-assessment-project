@@ -1,5 +1,8 @@
 package com.planet.assessment.application.validator
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_COUNTRY
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,15 +19,14 @@ class CountryValidatorTest {
         fun provideCountries(): Stream<Arguments> = Stream.of(
             Arguments.of(null as String?, false, false),
             Arguments.of("", true, false),
-            Arguments.of("PT", true, true),
-            Arguments.of("US", true, true)
+            Arguments.of(DEFAULT_COUNTRY, true, true)
         )
     }
 
     @ParameterizedTest
     @MethodSource("provideCountries")
     fun `country validation scenarios`(country: String?, shouldValidateExpected: Boolean, validateExpected: Boolean) {
-        val user = User(id = 1L, country = country)
+        val user = buildUser(id = 1L, country = country)
         assertEquals(shouldValidateExpected, validator.shouldValidate(user))
         if (shouldValidateExpected) {
             assertEquals(validateExpected, validator.validate(user))

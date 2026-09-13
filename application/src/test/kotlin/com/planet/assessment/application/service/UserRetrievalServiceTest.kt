@@ -1,5 +1,8 @@
 package com.planet.assessment.application.service
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.application.port.inbound.service.UserFormatterPort
 import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
 import com.planet.assessment.column.ExportColumn
@@ -17,7 +20,7 @@ class UserRetrievalServiceTest {
 
     @Test
     fun `retrieveUsers delegates to correct formatter based on format`() {
-        val users = listOf(User(id = 1L, name = "A"))
+        val users = listOf(buildUser(id = 1L, name = DEFAULT_NAME))
         whenever(persistence.findAll()).thenReturn(users)
 
         val csvFormatter = mock<UserFormatterPort>()
@@ -40,7 +43,7 @@ class UserRetrievalServiceTest {
 
     @Test
     fun `retrieveUsers throws when no formatter available for requested format`() {
-        val users = listOf(User(id = 2L))
+        val users = listOf(buildUser(id = 2L))
         whenever(persistence.findAll()).thenReturn(users)
 
         val service = UserRetrievalService(emptyList(), persistence)

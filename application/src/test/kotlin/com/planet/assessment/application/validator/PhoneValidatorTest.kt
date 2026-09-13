@@ -1,5 +1,9 @@
 package com.planet.assessment.application.validator
 
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_PHONE
+import com.planet.assessment.application.TestUtils.DEFAULT_PHONE_WITH_IDENTIFIER
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,16 +18,20 @@ class PhoneValidatorTest {
     companion object {
         @JvmStatic
         fun providePhones(): Stream<Arguments> = Stream.of(
-            Arguments.of("912345678", true),
-            Arguments.of("123", false),
-            Arguments.of("", false)
+            Arguments.of(DEFAULT_PHONE, true, true),
+            Arguments.of(DEFAULT_PHONE_WITH_IDENTIFIER, true, true),
+            Arguments.of("123", false, true),
+            Arguments.of("", false, true),
+            Arguments.of(null, false, false)
         )
     }
 
     @ParameterizedTest
     @MethodSource("providePhones")
-    fun `validate various phone values`(phone: String, expected: Boolean) {
-        val user = User(id = 1L, phone = phone)
-        assertEquals(expected, validator.validate(user))
+    fun `validate various phone values`(phone: String?, expected: Boolean, shouldValidateExpected: Boolean) {
+        val user = buildUser(id = 1L, phone = phone)
+        assertEquals(shouldValidateExpected, validator.shouldValidate(user))
+        if(shouldValidateExpected)
+            assertEquals(expected, validator.validate(user))
     }
 }

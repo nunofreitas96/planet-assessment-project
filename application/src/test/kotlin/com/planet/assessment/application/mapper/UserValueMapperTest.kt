@@ -2,6 +2,13 @@ package com.planet.assessment.application.mapper
 
 import com.planet.assessment.application.mapper.UserValueMapper.valueOf
 import com.planet.assessment.column.ExportColumn
+import com.planet.assessment.application.TestUtils
+import com.planet.assessment.application.TestUtils.DEFAULT_AGE
+import com.planet.assessment.application.TestUtils.DEFAULT_COUNTRY
+import com.planet.assessment.application.TestUtils.DEFAULT_EMAIL
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.DEFAULT_PHONE
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
@@ -15,14 +22,47 @@ class UserValueMapperTest {
 
     companion object {
         @JvmStatic
-        fun provideValues(): Stream<Arguments> = Stream.of(
-            Arguments.of(ExportColumn.ID, 42L, User(id = 42L, name = "x", email = "e", age = "1", country = "PT", phone = "9")),
-            Arguments.of(ExportColumn.NAME, "John", User(id = 1L, name = "John")),
-            Arguments.of(ExportColumn.EMAIL, "a@b.com", User(id = 1L, email = "a@b.com")),
-            Arguments.of(ExportColumn.AGE, "30", User(id = 1L, age = "30")),
-            Arguments.of(ExportColumn.COUNTRY, "PT", User(id = 1L, country = "PT")),
-            Arguments.of(ExportColumn.PHONE, "912345678", User(id = 1L, phone = "912345678"))
-        )
+        fun provideValues(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(
+                    ExportColumn.ID,
+                    42L,
+                    buildUser(
+                        id = 42L,
+                        name = DEFAULT_NAME,
+                        email = DEFAULT_EMAIL,
+                        age = DEFAULT_AGE,
+                        country = DEFAULT_COUNTRY,
+                        phone = DEFAULT_PHONE
+                    )
+                ),
+                Arguments.of(
+                    ExportColumn.NAME,
+                    DEFAULT_NAME,
+                    buildUser(id = 1L, name = DEFAULT_NAME)
+                ),
+                Arguments.of(
+                    ExportColumn.EMAIL,
+                    DEFAULT_EMAIL,
+                    buildUser(id = 1L, email = DEFAULT_EMAIL)
+                ),
+                Arguments.of(
+                    ExportColumn.AGE,
+                    DEFAULT_AGE,
+                    buildUser(id = 1L, age = DEFAULT_AGE)
+                ),
+                Arguments.of(
+                    ExportColumn.COUNTRY,
+                    DEFAULT_COUNTRY,
+                    buildUser(id = 1L, country = DEFAULT_COUNTRY)
+                ),
+                Arguments.of(
+                    ExportColumn.PHONE,
+                    DEFAULT_PHONE,
+                    buildUser(id = 1L, phone = DEFAULT_PHONE)
+                )
+            )
+        }
     }
 
     @ParameterizedTest

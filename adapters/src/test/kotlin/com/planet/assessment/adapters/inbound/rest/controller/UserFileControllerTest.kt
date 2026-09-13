@@ -1,14 +1,17 @@
 package com.planet.assessment.adapters.inbound.rest.controller
 
+import com.planet.assessment.adapters.TestUtils.CONTENT_TYPE
+import com.planet.assessment.adapters.TestUtils.CSV_TEXT
+import com.planet.assessment.adapters.TestUtils.CSV_TEXT_NO_ID
+import com.planet.assessment.adapters.TestUtils.FILE_NAME
+import com.planet.assessment.adapters.TestUtils.ORIGINAL_FILE_NAME
+import com.planet.assessment.adapters.TestUtils.DEFAULT_NAME
 import com.planet.assessment.adapters.inbound.rest.controller.mapper.ExportFormatMapper.toMediaType
 import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.inbound.service.UserRetrievalServicePort
-import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.format.ExportFormat as DomainExportFormat
-import com.planet.assessment.user.User
 import com.planetassessment.adapters.model.ExportFormat
-import com.planetassessment.adapters.model.UploadResponse
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.*
@@ -25,24 +28,24 @@ class UserFileControllerTest {
 
     @Test
     fun `importCsv should parse file and call processing service and return OK`() {
-        val csv = "id,name,email\n1,Alice,alice@example.com\n2,Bob,bob@example.com\n"
-        val file = MockMultipartFile("file", "users.csv", "text/csv", csv.toByteArray())
+        val csv = CSV_TEXT
+        val file = MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME, CONTENT_TYPE, csv.toByteArray())
 
         val response = controller.importCsv(file)
 
         assertEquals(HttpStatus.OK, response.statusCode)
-        // ensure processing called with parsed users
+
         verify(processing).process(check {
             assertEquals(2, it.size)
             assertEquals(1L, it[0].id)
-            assertEquals("Alice", it[0].name)
+            assertEquals(DEFAULT_NAME, it[0].name)
         })
     }
 
     @Test
     fun `importCsv should throw BAD_REQUEST when id header missing`() {
-        val csv = "name,email\nAlice,alice@example.com\n"
-        val file = MockMultipartFile("file", "users.csv", "text/csv", csv.toByteArray())
+        val csv = CSV_TEXT_NO_ID
+        val file = MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME, CONTENT_TYPE, csv.toByteArray())
 
         assertThrows<ResponseStatusException> {
             controller.importCsv(file)

@@ -1,5 +1,13 @@
 package com.planet.assessment.application.formatter
 
+import com.planet.assessment.application.TestUtils.ALT_EMAIL
+import com.planet.assessment.application.TestUtils.ALT_NAME
+import com.planet.assessment.application.TestUtils.DEFAULT_EMAIL
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.ID_COLUMN
+import com.planet.assessment.application.TestUtils.EMAIL_COLUMN
+import com.planet.assessment.application.TestUtils.NAME_COLUMN
+import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.user.User
 import org.apache.poi.ss.usermodel.DataFormatter
@@ -19,8 +27,8 @@ class ExcelTypeUserFormatterTest {
     fun `format should produce XLSX with header and rows for users`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME, ExportColumn.EMAIL)
         val users = listOf(
-            User(id = 1L, name = "Alice", email = "alice@example.com"),
-            User(id = 2L, name = "Bob", email = "bob@example.com")
+            buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
+            buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL)
         )
 
         val workbook = XSSFWorkbook()
@@ -34,21 +42,21 @@ class ExcelTypeUserFormatterTest {
 
         // header
         val headerRow = sheet.getRow(0)
-        assertEquals("ID", formatterUtil.formatCellValue(headerRow.getCell(0)))
-        assertEquals("NAME", formatterUtil.formatCellValue(headerRow.getCell(1)))
-        assertEquals("EMAIL", formatterUtil.formatCellValue(headerRow.getCell(2)))
+        assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
+        assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
+        assertEquals(EMAIL_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(2)))
 
         // first data row
         val row1 = sheet.getRow(1)
         assertEquals("1", formatterUtil.formatCellValue(row1.getCell(0)))
-        assertEquals("Alice", formatterUtil.formatCellValue(row1.getCell(1)))
-        assertEquals("alice@example.com", formatterUtil.formatCellValue(row1.getCell(2)))
+        assertEquals(DEFAULT_NAME, formatterUtil.formatCellValue(row1.getCell(1)))
+        assertEquals(DEFAULT_EMAIL, formatterUtil.formatCellValue(row1.getCell(2)))
 
         // second data row
         val row2 = sheet.getRow(2)
         assertEquals("2", formatterUtil.formatCellValue(row2.getCell(0)))
-        assertEquals("Bob", formatterUtil.formatCellValue(row2.getCell(1)))
-        assertEquals("bob@example.com", formatterUtil.formatCellValue(row2.getCell(2)))
+        assertEquals(ALT_NAME, formatterUtil.formatCellValue(row2.getCell(1)))
+        assertEquals(ALT_EMAIL, formatterUtil.formatCellValue(row2.getCell(2)))
 
         wb.close()
     }
@@ -67,8 +75,8 @@ class ExcelTypeUserFormatterTest {
         val formatterUtil = DataFormatter()
 
         val headerRow = sheet.getRow(0)
-        assertEquals("ID", formatterUtil.formatCellValue(headerRow.getCell(0)))
-        assertEquals("NAME", formatterUtil.formatCellValue(headerRow.getCell(1)))
+        assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
+        assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
 
         // ensure there are no data rows (only header)
         assertNull(sheet.getRow(1))
@@ -80,8 +88,8 @@ class ExcelTypeUserFormatterTest {
     fun `format with HSSFWorkbook should produce XLS with header and rows for users`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME, ExportColumn.EMAIL)
         val users = listOf(
-            User(id = 10L, name = "Carol", email = "carol@example.com"),
-            User(id = 11L, name = "Dave", email = "dave@example.com")
+            buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
+            buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL)
         )
 
         val workbook = HSSFWorkbook()
@@ -94,21 +102,21 @@ class ExcelTypeUserFormatterTest {
 
         // header
         val headerRow = sheet.getRow(0)
-        assertEquals("ID", formatterUtil.formatCellValue(headerRow.getCell(0)))
-        assertEquals("NAME", formatterUtil.formatCellValue(headerRow.getCell(1)))
-        assertEquals("EMAIL", formatterUtil.formatCellValue(headerRow.getCell(2)))
+        assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
+        assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
+        assertEquals(EMAIL_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(2)))
 
         // first data row
         val row1 = sheet.getRow(1)
-        assertEquals("10", formatterUtil.formatCellValue(row1.getCell(0)))
-        assertEquals("Carol", formatterUtil.formatCellValue(row1.getCell(1)))
-        assertEquals("carol@example.com", formatterUtil.formatCellValue(row1.getCell(2)))
+        assertEquals("1", formatterUtil.formatCellValue(row1.getCell(0)))
+        assertEquals(DEFAULT_NAME, formatterUtil.formatCellValue(row1.getCell(1)))
+        assertEquals(DEFAULT_EMAIL, formatterUtil.formatCellValue(row1.getCell(2)))
 
         // second data row
         val row2 = sheet.getRow(2)
-        assertEquals("11", formatterUtil.formatCellValue(row2.getCell(0)))
-        assertEquals("Dave", formatterUtil.formatCellValue(row2.getCell(1)))
-        assertEquals("dave@example.com", formatterUtil.formatCellValue(row2.getCell(2)))
+        assertEquals("2", formatterUtil.formatCellValue(row2.getCell(0)))
+        assertEquals(ALT_NAME, formatterUtil.formatCellValue(row2.getCell(1)))
+        assertEquals(ALT_EMAIL, formatterUtil.formatCellValue(row2.getCell(2)))
 
         wb.close()
     }

@@ -17,17 +17,19 @@ class PhoneValidator : UserValidator  {
     override fun validate(user: User): Boolean {
         val userPhone = user.phone!!
 
+        if(userPhone.isBlank()){
+            logger.warn("Discarding User with id ${user.id} due to blank phone column.")
+            return false
+        }
+
         val phone = phoneNumberUtil.parse(userPhone,
             "PT");
 
-        val isValid = phoneNumberUtil.isValidNumber(phone) && userPhone.isNotBlank()
-        if (!isValid) {
-            if (userPhone.isBlank()) {
-                logger.warn("Discarding User with id ${user.id} due to blank phone column.")
-            } else
+        if (!phoneNumberUtil.isValidNumber(phone)) {
             logger.warn("Discarding User with id ${user.id} due to invalid phone number: $userPhone.")
+            return false
         }
-        return isValid
+        return true
     }
 
     override fun shouldValidate(user: User): Boolean {
