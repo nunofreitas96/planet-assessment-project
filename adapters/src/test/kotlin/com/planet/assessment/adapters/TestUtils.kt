@@ -18,7 +18,7 @@ object TestUtils {
     const val CSV_TEXT_NO_ID = "name,email\nJohn,john@example.com\n"
     const val CSV_WITH_DUPLICATE_COLUMNS = "id,name,name\n1,John,JohnDuplicate\n"
     const val CSV_WITH_INVALID_ID = "id,name,email\nabc,Invalid,invalid@example.com\n2,Bob,bob@example.com\n"
-    const val FILE_NAME = "customers"
+    const val FILE_NAME = "file"
     const val ORIGINAL_FILE_NAME = "customers.csv"
     const val CONTENT_TYPE = "text/csv"
 
