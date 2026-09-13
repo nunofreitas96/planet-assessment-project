@@ -1,6 +1,8 @@
 package com.planet.assessment.adapters.outbound.persistence.mapper
 
 import com.planet.assessment.adapters.outbound.persistence.entity.UserEntity
+import com.planet.assessment.adapters.outbound.persistence.mapper.UserMapper.toEntity
+import com.planet.assessment.adapters.outbound.persistence.mapper.UserMapper.toInternalModel
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest

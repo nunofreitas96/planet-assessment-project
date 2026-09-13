@@ -1,4 +1,4 @@
-package com.planet.assessment.application.service
+package com.planet.assessment.application.formatter
 
 import com.planet.assessment.application.mapper.UserValueMapper.valueOf
 import com.planet.assessment.application.port.inbound.service.UserFormatterPort

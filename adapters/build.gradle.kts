@@ -18,6 +18,11 @@ tasks.named("compileKotlin") {
     dependsOn(tasks.named("openApiGenerate"))
 }
 
+
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(project(":application"))
     implementation(project(":domain"))
@@ -28,13 +33,16 @@ dependencies {
     implementation(SpringBootDependencies.validation)
     implementation(SpringBootDependencies.aop)
     implementation(SpringBootDependencies.dataJpa)
-
+    testImplementation(kotlin("test"))
     testImplementation(TestDependencies.junitJupiter)
 
+
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:4.1.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.4.20")
     implementation("jakarta.servlet:jakarta.servlet-api:6.2.0-M2")
     implementation("org.apache.commons:commons-csv:1.14.1")
-    testImplementation(kotlin("test"))
+
 }
 
 openApiGenerate {

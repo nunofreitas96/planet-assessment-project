@@ -1,4 +1,4 @@
-package com.planet.assessment.application
+package com.planet.assessment.application.exception
 
 class MissingColumnValueException(
     val missingColumn: String,

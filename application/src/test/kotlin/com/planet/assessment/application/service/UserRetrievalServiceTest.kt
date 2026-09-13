@@ -7,6 +7,7 @@ import com.planet.assessment.format.ExportFormat
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.*
 import org.springframework.core.io.ByteArrayResource
 
@@ -44,7 +45,7 @@ class UserRetrievalServiceTest {
 
         val service = UserRetrievalService(emptyList(), persistence)
 
-        assertThrows<KotlinNullPointerException> {
+        assertThrows<NullPointerException>{
             service.retrieveUsers(ExportFormat.CSV, listOf(ExportColumn.ID))
         }
     }

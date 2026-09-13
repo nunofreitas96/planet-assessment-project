@@ -1,5 +1,6 @@
 package com.planet.assessment.application.mapper
 
+import com.planet.assessment.application.mapper.UserValueMapper.valueOf
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.user.User
 import org.junit.jupiter.api.DisplayName

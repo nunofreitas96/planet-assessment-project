@@ -2,7 +2,7 @@ package com.planet.assessment.adapters.inbound.rest.controller
 
 import com.planet.assessment.adapters.inbound.rest.controller.mapper.ExportFormatMapper.toDomainExportFormat
 import com.planet.assessment.adapters.inbound.rest.controller.mapper.ExportFormatMapper.toMediaType
-import com.planet.assessment.application.MissingColumnValueException
+import com.planet.assessment.application.exception.MissingColumnValueException
 import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.inbound.service.UserRetrievalServicePort
 import com.planet.assessment.column.ExportColumn
