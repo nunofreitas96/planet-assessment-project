@@ -32,7 +32,6 @@ class CsvUserFormatterTest {
         val expectedHeader = columns.joinToString(",") { it.name }
         assertTrue(text.contains(expectedHeader))
 
-        // each user row should appear with values in the same order
         assertTrue(text.contains(DEFAULT_CSV_LINE))
         assertTrue(text.contains(ALT_CSV_LINE))
     }
@@ -48,10 +47,7 @@ class CsvUserFormatterTest {
         val expectedHeader = columns.joinToString(",") { it.name }
         assertTrue(text.contains(expectedHeader))
 
-        // No user rows expected
-        // Removing header line and trimming should leave empty or whitespace only
         val lines = text.lines().filter { it.isNotBlank() }
-        // header exists, so lines size should be 1
         assertEquals(1, lines.size)
     }
 }

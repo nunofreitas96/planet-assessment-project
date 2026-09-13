@@ -64,7 +64,6 @@ class UserProcessingServiceTest {
         service.process(listOf(newUser))
 
         verify(persistence).findById(newUser.id)
-        // current implementation saves the provided user
         verify(persistence).save(newUser)
     }
 }

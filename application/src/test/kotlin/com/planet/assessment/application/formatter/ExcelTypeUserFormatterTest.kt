@@ -34,25 +34,21 @@ class ExcelTypeUserFormatterTest {
         val workbook = XSSFWorkbook()
         val resource: Resource = formatter.format(workbook, users, columns)
 
-        // Read back the produced workbook bytes
         val produced = ByteArrayInputStream(resource.contentAsByteArray)
         val wb = WorkbookFactory.create(produced)
         val sheet = wb.getSheetAt(0)
         val formatterUtil = DataFormatter()
 
-        // header
         val headerRow = sheet.getRow(0)
         assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
         assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
         assertEquals(EMAIL_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(2)))
 
-        // first data row
         val row1 = sheet.getRow(1)
         assertEquals("1", formatterUtil.formatCellValue(row1.getCell(0)))
         assertEquals(DEFAULT_NAME, formatterUtil.formatCellValue(row1.getCell(1)))
         assertEquals(DEFAULT_EMAIL, formatterUtil.formatCellValue(row1.getCell(2)))
 
-        // second data row
         val row2 = sheet.getRow(2)
         assertEquals("2", formatterUtil.formatCellValue(row2.getCell(0)))
         assertEquals(ALT_NAME, formatterUtil.formatCellValue(row2.getCell(1)))
@@ -78,7 +74,6 @@ class ExcelTypeUserFormatterTest {
         assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
         assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
 
-        // ensure there are no data rows (only header)
         assertNull(sheet.getRow(1))
 
         wb.close()
@@ -100,19 +95,16 @@ class ExcelTypeUserFormatterTest {
         val sheet = wb.getSheetAt(0)
         val formatterUtil = DataFormatter()
 
-        // header
         val headerRow = sheet.getRow(0)
         assertEquals(ID_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(0)))
         assertEquals(NAME_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(1)))
         assertEquals(EMAIL_COLUMN, formatterUtil.formatCellValue(headerRow.getCell(2)))
 
-        // first data row
         val row1 = sheet.getRow(1)
         assertEquals("1", formatterUtil.formatCellValue(row1.getCell(0)))
         assertEquals(DEFAULT_NAME, formatterUtil.formatCellValue(row1.getCell(1)))
         assertEquals(DEFAULT_EMAIL, formatterUtil.formatCellValue(row1.getCell(2)))
 
-        // second data row
         val row2 = sheet.getRow(2)
         assertEquals("2", formatterUtil.formatCellValue(row2.getCell(0)))
         assertEquals(ALT_NAME, formatterUtil.formatCellValue(row2.getCell(1)))
