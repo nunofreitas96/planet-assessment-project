@@ -2,6 +2,9 @@ package com.planet.assessment.application.validator
 
 import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.buildUser
+import com.planet.assessment.application.TestUtils.buildValidationResult
+import com.planet.assessment.user.UserDiscardReason
+import com.planet.assessment.user.UserValidationResult
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -15,9 +18,21 @@ class NameValidatorTest {
         @JvmStatic
         fun provideNames(): Stream<Arguments> =
             Stream.of(
-                Arguments.of(null as String?, false, false),
-                Arguments.of("", true, false),
-                Arguments.of(DEFAULT_NAME, true, true),
+                Arguments.of(
+                    null,
+                    false,
+                    buildValidationResult(isValid = false, discardReason = UserDiscardReason.BLANK_NAME),
+                ),
+                Arguments.of(
+                    "",
+                    true,
+                    buildValidationResult(isValid = false, discardReason = UserDiscardReason.BLANK_NAME),
+                ),
+                Arguments.of(
+                    DEFAULT_NAME,
+                    true,
+                    buildValidationResult(isValid = true),
+                ),
             )
     }
 
@@ -26,7 +41,7 @@ class NameValidatorTest {
     fun `name validation scenarios`(
         name: String?,
         shouldValidateExpected: Boolean,
-        validateExpected: Boolean,
+        validateExpected: UserValidationResult,
     ) {
         val user = buildUser(id = 1L, name = name)
         assertEquals(shouldValidateExpected, validator.shouldValidate(user))

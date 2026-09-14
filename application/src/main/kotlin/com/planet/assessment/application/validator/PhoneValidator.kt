@@ -2,6 +2,8 @@ package com.planet.assessment.application.validator
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.planet.assessment.user.User
+import com.planet.assessment.user.UserDiscardReason
+import com.planet.assessment.user.UserValidationResult
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -11,12 +13,12 @@ class PhoneValidator : UserValidator {
 
     private val phoneNumberUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance()
 
-    override fun validate(user: User): Boolean {
+    override fun validate(user: User): UserValidationResult {
         val userPhone = user.phone!!
 
         if (userPhone.isBlank()) {
             logger.warn("Discarding User with id ${user.id} due to blank phone column.")
-            return false
+            return UserValidationResult(user.id, false, UserDiscardReason.BLANK_PHONE)
         }
 
         val phone =
@@ -27,9 +29,9 @@ class PhoneValidator : UserValidator {
 
         if (!phoneNumberUtil.isValidNumber(phone)) {
             logger.warn("Discarding User with id ${user.id} due to invalid phone number: $userPhone.")
-            return false
+            return UserValidationResult(user.id, false, UserDiscardReason.INVALID_PHONE)
         }
-        return true
+        return UserValidationResult(user.id, true)
     }
 
     override fun shouldValidate(user: User): Boolean = user.phone != null

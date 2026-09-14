@@ -1,27 +1,19 @@
 package com.planet.assessment.adapters
 
 import com.planet.assessment.BaseIntegrationTest
-import com.planet.assessment.TestUtils.ALT_EMAIL
-import com.planet.assessment.TestUtils.ALT_NAME
 import com.planet.assessment.TestUtils.CONTENT_TYPE
 import com.planet.assessment.TestUtils.CSV_TEXT
 import com.planet.assessment.TestUtils.CSV_TEXT_NO_ID
 import com.planet.assessment.TestUtils.CSV_WITH_DUPLICATE_COLUMNS
-import com.planet.assessment.TestUtils.DEFAULT_EMAIL
-import com.planet.assessment.TestUtils.DEFAULT_NAME
 import com.planet.assessment.TestUtils.FILE_NAME
 import com.planet.assessment.TestUtils.ORIGINAL_FILE_NAME
 import com.planet.assessment.TestUtils.PATH_EXPORT_DATA
 import com.planet.assessment.TestUtils.PATH_IMPORT_CSV
-import com.planet.assessment.TestUtils.buildUser
-import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.inbound.service.UserRetrievalServicePort
 import com.planet.assessment.column.ExportColumn
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.check
 import org.mockito.kotlin.eq
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,6 +24,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import com.planet.assessment.format.ExportFormat as DomainExportFormat
 
@@ -39,9 +32,6 @@ import com.planet.assessment.format.ExportFormat as DomainExportFormat
 class UserFileControllerTest : BaseIntegrationTest() {
     @Autowired
     lateinit var mockMvc: MockMvc
-
-    @MockitoBean
-    lateinit var processing: UserProcessingServicePort
 
     @MockitoBean
     lateinit var retrieval: UserRetrievalServicePort
@@ -53,33 +43,11 @@ class UserFileControllerTest : BaseIntegrationTest() {
         mockMvc
             .perform(multipart(PATH_IMPORT_CSV).file(file))
             .andExpect(status().isOk)
-
-        val expectedUser1 =
-            buildUser(
-                id = 1L,
-                name = DEFAULT_NAME,
-                email = DEFAULT_EMAIL,
-                age = null,
-                country = null,
-                phone = null,
+            .andExpect(
+                content().string(
+                    "{\"status\":\"success\",\"message\":\"Users upload successfully by Id: 1 ; 2. No Users discarded. Users that have badly formatted columns are not shown here. \",\"fileName\":null}",
+                ),
             )
-
-        val expectedUser2 =
-            buildUser(
-                id = 2L,
-                name = ALT_NAME,
-                email = ALT_EMAIL,
-                age = null,
-                country = null,
-                phone = null,
-            )
-
-        verify(processing).process(
-            check { users ->
-                assertEquals(expectedUser1, users[0])
-                assertEquals(expectedUser2, users[1])
-            },
-        )
     }
 
     @Test

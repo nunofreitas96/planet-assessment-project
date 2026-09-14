@@ -1,6 +1,8 @@
 package com.planet.assessment.application
 
 import com.planet.assessment.user.User
+import com.planet.assessment.user.UserDiscardReason
+import com.planet.assessment.user.UserValidationResult
 
 object TestUtils {
     const val DEFAULT_NAME: String = "John"
@@ -30,4 +32,10 @@ object TestUtils {
         country: String? = DEFAULT_COUNTRY,
         phone: String? = DEFAULT_PHONE,
     ): User = User(id = id, name = name, email = email, age = age, country = country, phone = phone)
+
+    fun buildValidationResult(
+        id: Long = 1L,
+        isValid: Boolean,
+        discardReason: UserDiscardReason? = null,
+    ): UserValidationResult = UserValidationResult(userId = id, isValid = isValid, discardReason = discardReason)
 }

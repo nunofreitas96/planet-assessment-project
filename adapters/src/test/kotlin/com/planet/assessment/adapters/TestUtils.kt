@@ -14,6 +14,7 @@ object TestUtils {
     const val BLANK_COLUMN = ""
 
     const val CSV_TEXT = "id,name,email\n1,John,\"john@example.com\"\n2,Bob,bob@example.com\n"
+    const val CSV_TEXT_NO_EMAIL = "id,name,email\n1,John,\"\"\n"
     const val CSV_TEXT_NO_ID = "name,email\nJohn,john@example.com\n"
     const val CSV_WITH_DUPLICATE_COLUMNS = "id,name,name\n1,John,JohnDuplicate\n"
     const val CSV_WITH_INVALID_ID = "id,name,email\nabc,Invalid,invalid@example.com\n2,Bob,bob@example.com\n"

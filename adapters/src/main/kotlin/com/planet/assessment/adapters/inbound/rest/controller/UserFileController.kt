@@ -32,9 +32,22 @@ class UserFileController(
         logger.info("Received file: ${file.originalFilename}, size: ${file.size} bytes")
         try {
             val users = parseUsers(file)
-            userProcessingServicePort.process(users)
+            val processedUsers = userProcessingServicePort.process(users)
+            val discardedStrings =
+                processedUsers.second.map {
+                    "Id: ${it.userId} - Discard Reason: ${it.discardReason?.reasonString}"
+                }
 
-            return ResponseEntity.ok(UploadResponse(status = Status.success, message = "File uploaded successfully"))
+            return ResponseEntity.ok(
+                UploadResponse(
+                    status = Status.success,
+                    message =
+                        createImportResponseMessage(
+                            processedIds = processedUsers.first,
+                            discardedStrings = discardedStrings,
+                        ),
+                ),
+            )
         } catch (e: ResponseStatusException) {
             logger.error("Error while importing CSV with invalid format:\n" + e.message)
             throw e
@@ -88,6 +101,26 @@ class UserFileController(
                 e,
             )
         }
+    }
+
+    private fun createImportResponseMessage(
+        processedIds: Set<Long>,
+        discardedStrings: List<String>,
+    ): String {
+        val processedUsersString =
+            if (processedIds.isEmpty()) {
+                "No Users processed. "
+            } else {
+                "Users upload successfully by Id: ${processedIds.map { it.toString() }.joinToString(" ; ")}. "
+            }
+
+        val discardedUsersString =
+            if (discardedStrings.isEmpty()) {
+                "No Users discarded. Users that have badly formatted columns are not shown here. "
+            } else {
+                "Users discarded: ${discardedStrings.joinToString(" ; ")}"
+            }
+        return processedUsersString + discardedUsersString
     }
 
     private fun validateRequestedColumns(columns: List<String>) {
