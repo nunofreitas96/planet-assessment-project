@@ -1,20 +1,23 @@
 package com.planet.assessment.application.formatter
 
-import com.planet.assessment.application.TestUtils
 import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.application.port.inbound.service.ExcelTypeUserFormatterPort
 import com.planet.assessment.column.ExportColumn
-import com.planet.assessment.user.User
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Workbook
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.core.io.ByteArrayResource
-import org.mockito.kotlin.*
 
 class XlsUserFormatterTest {
-
     private val delegate = mock<ExcelTypeUserFormatterPort>()
     private val formatter = XlsUserFormatter(delegate)
 

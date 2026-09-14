@@ -1,8 +1,8 @@
 plugins {
     id(Plugins.kotlinJvm) version Versions.kotlin
     id(Plugins.kotlinSpring) version Versions.kotlin
+    id(Plugins.ktLint) version Versions.ktLint
 }
-
 
 tasks.test {
     useJUnitPlatform()
@@ -10,7 +10,6 @@ tasks.test {
 
 dependencies {
     implementation(project(":domain"))
-
 
     implementation(SpringBootDependencies.starterWeb)
     implementation(SpringBootDependencies.dataJpa)
@@ -26,5 +25,4 @@ dependencies {
     testImplementation(TestDependencies.junitJupiter)
     testImplementation(TestDependencies.mockito)
     testImplementation(SpringBootDependencies.springStarterTest)
-
 }

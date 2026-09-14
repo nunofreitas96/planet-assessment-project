@@ -28,4 +28,6 @@ object Versions {
 
     const val apachePOI = "5.5.1"
 
+    const val ktLint = "14.0.1"
+
 }

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class XlsUserFormatter(
-    private val excelTypeUserFormatter: ExcelTypeUserFormatterPort
+    private val excelTypeUserFormatter: ExcelTypeUserFormatterPort,
 ) : UserFormatterPort {
-
     override val format = XLS
+
     override fun format(
         users: List<User>,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource {
         val workbook = HSSFWorkbook()
 

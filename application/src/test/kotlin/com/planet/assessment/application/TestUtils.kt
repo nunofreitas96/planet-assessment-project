@@ -3,7 +3,6 @@ package com.planet.assessment.application
 import com.planet.assessment.user.User
 
 object TestUtils {
-
     const val DEFAULT_NAME: String = "John"
     const val ALT_NAME: String = "Bob"
     const val NEW_NAME: String = "Jonathan"
@@ -29,7 +28,6 @@ object TestUtils {
         email: String? = DEFAULT_EMAIL,
         age: String? = DEFAULT_AGE,
         country: String? = DEFAULT_COUNTRY,
-        phone: String? = DEFAULT_PHONE
+        phone: String? = DEFAULT_PHONE,
     ): User = User(id = id, name = name, email = email, age = age, country = country, phone = phone)
-
 }

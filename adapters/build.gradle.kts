@@ -4,9 +4,9 @@ plugins {
     id(Plugins.openApiGenerator) version Versions.openApiGenerator
     id(Plugins.kotlinSpring) version Versions.kotlin
     id(Plugins.kotlinJvm) version Versions.kotlin
+    id(Plugins.ktLint) version Versions.ktLint
     kotlin("plugin.jpa")
 }
-
 
 sourceSets {
     main {
@@ -24,6 +24,9 @@ tasks.withType<ProcessResources> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+tasks.named("runKtlintCheckOverMainSourceSet") {
+    mustRunAfter("openApiGenerate")
+}
 
 tasks.named("compileKotlin") {
     dependsOn(tasks.named("openApiGenerate"))
@@ -87,8 +90,8 @@ openApiGenerate {
             "useSpringBoot3" to "true",
             "interfaceOnly" to "true",
             "useTags" to "true",
-            "apiNameSuffix" to "Api"
-        )
+            "apiNameSuffix" to "Api",
+        ),
     )
 }
 

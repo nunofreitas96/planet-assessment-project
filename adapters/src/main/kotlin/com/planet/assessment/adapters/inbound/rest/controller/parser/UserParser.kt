@@ -10,35 +10,37 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
 
 object UserParser {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     fun parseUsers(file: MultipartFile): List<User> {
-        val parser = CSVFormat.DEFAULT.builder()
-            .setHeader()
-            .setSkipHeaderRecord(true)
-            .get()
-            .parse(file.inputStream.bufferedReader())
+        val parser =
+            CSVFormat.DEFAULT
+                .builder()
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .get()
+                .parse(file.inputStream.bufferedReader())
 
         val columnHeaders = parser.headerNames
 
-        if(!columnHeaders.contains("id")){
+        if (!columnHeaders.contains("id")) {
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
-                "Missing required column - id"
+                "Missing required column - id",
             )
         }
 
-        val duplicates = columnHeaders
-            .groupingBy { it }
-            .eachCount()
-            .filter { (_, count) -> count > 1 }
-            .keys
+        val duplicates =
+            columnHeaders
+                .groupingBy { it }
+                .eachCount()
+                .filter { (_, count) -> count > 1 }
+                .keys
 
-        if(duplicates.isNotEmpty()){
+        if (duplicates.isNotEmpty()) {
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
-                "CSV has duplicate columns: ${duplicates.joinToString(",")}"
+                "CSV has duplicate columns: ${duplicates.joinToString(",")}",
             )
         }
 
@@ -46,20 +48,22 @@ object UserParser {
             try {
                 val id = record.getOrNull("id")
 
-                id?.toLongOrNull()?.let { User(
-                    id = it,
-                    name = record.getOrNull("name",it),
-                    email = record.getOrNull("email",it),
-                    age = record.getOrNull("age",it),
-                    country = record.getOrNull("country",it),
-                    phone = record.getOrNull("phone",it)
-                ) } ?: run {
+                id?.toLongOrNull()?.let {
+                    User(
+                        id = it,
+                        name = record.getOrNull("name", it),
+                        email = record.getOrNull("email", it),
+                        age = record.getOrNull("age", it),
+                        country = record.getOrNull("country", it),
+                        phone = record.getOrNull("phone", it),
+                    )
+                } ?: run {
                     logger.error("Invalid id for user record. Id: $id")
                     null
                 }
-
             } catch (e: MissingColumnValueException) {
-                e.id?.let { logger.error("Discarding user due to missing column value for column ${e.missingColumn} on id: ${e.id}")
+                e.id?.let {
+                    logger.error("Discarding user due to missing column value for column ${e.missingColumn} on id: ${e.id}")
                 } ?: logger.error("Discarding user due to missing column value for id")
                 null
             }
@@ -68,7 +72,7 @@ object UserParser {
 
     private fun CSVRecord.getOrNull(
         column: String,
-        id: Long? = null
+        id: Long? = null,
     ): String? {
         try {
             return if (this.isMapped(column)) {
@@ -79,8 +83,7 @@ object UserParser {
         } catch (e: IllegalArgumentException) {
             throw MissingColumnValueException(
                 missingColumn = column,
-                id = id
-
+                id = id,
             )
         }
     }

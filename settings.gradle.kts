@@ -9,5 +9,5 @@ include(
     "adapters",
     "application",
     "domain",
-    "planet-assessment-api"
+    "planet-assessment-api",
 )

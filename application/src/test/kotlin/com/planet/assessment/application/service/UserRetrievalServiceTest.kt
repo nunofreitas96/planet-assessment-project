@@ -1,21 +1,22 @@
 package com.planet.assessment.application.service
 
-import com.planet.assessment.application.TestUtils
 import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.application.port.inbound.service.UserFormatterPort
 import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.format.ExportFormat
-import com.planet.assessment.user.User
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.kotlin.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.never
+import org.mockito.kotlin.any
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import org.springframework.core.io.ByteArrayResource
 
 class UserRetrievalServiceTest {
-
     private val persistence = mock<UserPersistencePort>()
 
     @Test
@@ -48,7 +49,7 @@ class UserRetrievalServiceTest {
 
         val service = UserRetrievalService(emptyList(), persistence)
 
-        assertThrows<NullPointerException>{
+        assertThrows<NullPointerException> {
             service.retrieveUsers(ExportFormat.CSV, listOf(ExportColumn.ID))
         }
     }

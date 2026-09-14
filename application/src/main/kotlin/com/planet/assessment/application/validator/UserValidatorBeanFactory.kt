@@ -9,19 +9,17 @@ class UserValidatorBeanFactory(
     val emailValidator: EmailValidator,
     val phoneValidator: PhoneValidator,
     val nameValidator: NameValidator,
-    val countryValidator: CountryValidator
+    val countryValidator: CountryValidator,
 ) {
     @Bean
-    fun getUserValidator(): UserValidatorFactory {
-        return UserValidatorFactory(
+    fun getUserValidator(): UserValidatorFactory =
+        UserValidatorFactory(
             listOf(
                 ageValidator,
                 emailValidator,
                 phoneValidator,
                 nameValidator,
-                countryValidator
-            )
+                countryValidator,
+            ),
         )
-    }
-
 }

@@ -7,6 +7,6 @@ import org.springframework.core.io.Resource
 interface UserRetrievalServicePort {
     fun retrieveUsers(
         format: ExportFormat,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource
 }

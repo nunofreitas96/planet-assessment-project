@@ -17,7 +17,5 @@ class NameValidator : UserValidator {
         return isValid
     }
 
-    override fun shouldValidate(user: User): Boolean {
-        return user.name != null
-    }
+    override fun shouldValidate(user: User): Boolean = user.name != null
 }

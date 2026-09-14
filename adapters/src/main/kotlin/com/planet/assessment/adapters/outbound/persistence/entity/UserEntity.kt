@@ -2,8 +2,6 @@ package com.planet.assessment.adapters.outbound.persistence.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 
@@ -12,20 +10,14 @@ import jakarta.persistence.Table
 class UserEntity(
     @Id
     var id: Long? = null,
-
     @Column(nullable = true, unique = false)
     var name: String? = null,
-
     @Column(nullable = true, unique = false)
     var email: String? = null,
-
     @Column(nullable = true, unique = false)
     var age: Int? = null,
-
     @Column(nullable = true, unique = false)
     var country: String? = null,
-
     @Column(nullable = true, unique = false)
     var phone: String? = null,
-) {
-}
+)

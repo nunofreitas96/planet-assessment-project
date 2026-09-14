@@ -3,7 +3,6 @@ package com.planet.assessment
 import com.planet.assessment.user.User
 
 object TestUtils {
-
     const val DEFAULT_NAME = "John"
     const val ALT_NAME: String = "Bob"
     const val DEFAULT_EMAIL = "john@example.com"
@@ -11,7 +10,6 @@ object TestUtils {
     const val DEFAULT_AGE_COLUMN = "25"
     const val DEFAULT_COUNTRY = "Portugal"
     const val DEFAULT_PHONE = "912345678"
-
 
     const val PATH_EXPORT_DATA: String = "/api/v1/export"
     const val PATH_IMPORT_CSV: String = "/api/v1/import/csv"
@@ -29,7 +27,6 @@ object TestUtils {
         email: String? = DEFAULT_EMAIL,
         age: String? = DEFAULT_AGE_COLUMN,
         country: String? = DEFAULT_COUNTRY,
-        phone: String? = DEFAULT_PHONE
+        phone: String? = DEFAULT_PHONE,
     ): User = User(id = id, name = name, email = email, age = age, country = country, phone = phone)
-
 }

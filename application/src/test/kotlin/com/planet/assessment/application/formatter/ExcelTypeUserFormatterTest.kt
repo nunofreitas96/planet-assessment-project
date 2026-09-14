@@ -4,32 +4,33 @@ import com.planet.assessment.application.TestUtils.ALT_EMAIL
 import com.planet.assessment.application.TestUtils.ALT_NAME
 import com.planet.assessment.application.TestUtils.DEFAULT_EMAIL
 import com.planet.assessment.application.TestUtils.DEFAULT_NAME
-import com.planet.assessment.application.TestUtils.ID_COLUMN
 import com.planet.assessment.application.TestUtils.EMAIL_COLUMN
+import com.planet.assessment.application.TestUtils.ID_COLUMN
 import com.planet.assessment.application.TestUtils.NAME_COLUMN
 import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.user.User
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.springframework.core.io.Resource
 import java.io.ByteArrayInputStream
 
 class ExcelTypeUserFormatterTest {
-
     private val formatter = ExcelTypeUserFormatter()
 
     @Test
     fun `format should produce XLSX with header and rows for users`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME, ExportColumn.EMAIL)
-        val users = listOf(
-            buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
-            buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL)
-        )
+        val users =
+            listOf(
+                buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
+                buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL),
+            )
 
         val workbook = XSSFWorkbook()
         val resource: Resource = formatter.format(workbook, users, columns)
@@ -82,10 +83,11 @@ class ExcelTypeUserFormatterTest {
     @Test
     fun `format with HSSFWorkbook should produce XLS with header and rows for users`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME, ExportColumn.EMAIL)
-        val users = listOf(
-            buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
-            buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL)
-        )
+        val users =
+            listOf(
+                buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
+                buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL),
+            )
 
         val workbook = HSSFWorkbook()
         val resource = formatter.format(workbook, users, columns)

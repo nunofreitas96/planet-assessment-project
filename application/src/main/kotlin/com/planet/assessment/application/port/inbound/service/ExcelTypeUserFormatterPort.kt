@@ -9,6 +9,6 @@ interface ExcelTypeUserFormatterPort {
     fun format(
         workbook: Workbook,
         users: List<User>,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource
 }

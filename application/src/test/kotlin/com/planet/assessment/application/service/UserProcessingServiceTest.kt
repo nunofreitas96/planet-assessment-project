@@ -1,13 +1,13 @@
 package com.planet.assessment.application.service
 
-import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
-import com.planet.assessment.application.validator.UserValidatorFactory
-import com.planet.assessment.application.validator.UserValidator
-import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.ALT_NAME
-import com.planet.assessment.application.TestUtils.NEW_NAME
 import com.planet.assessment.application.TestUtils.DEFAULT_EMAIL
+import com.planet.assessment.application.TestUtils.DEFAULT_NAME
+import com.planet.assessment.application.TestUtils.NEW_NAME
 import com.planet.assessment.application.TestUtils.buildUser
+import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
+import com.planet.assessment.application.validator.UserValidator
+import com.planet.assessment.application.validator.UserValidatorFactory
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
@@ -16,7 +16,6 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 class UserProcessingServiceTest {
-
     private val persistence = mock<UserPersistencePort>()
     private val validatorFactory = mock<UserValidatorFactory>()
     private val service = UserProcessingService(persistence, validatorFactory)

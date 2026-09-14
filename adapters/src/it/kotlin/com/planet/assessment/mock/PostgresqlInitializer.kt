@@ -12,7 +12,9 @@ import org.testcontainers.junit.jupiter.Container
 @Component
 class PostgresqlInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
     companion object {
-        class KGenericContainer(imageName: String) : GenericContainer<KGenericContainer>(imageName)
+        class KGenericContainer(
+            imageName: String,
+        ) : GenericContainer<KGenericContainer>(imageName)
 
         private const val POSTGRES_PORT = 5432
         private const val POSTGRES_USR = "postgres"
@@ -33,14 +35,15 @@ class PostgresqlInitializer : ApplicationContextInitializer<ConfigurableApplicat
     override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
         postgresql.start()
         logger.debug("Initializing postgresql running...")
-        TestPropertyValues.of(
-            mapOf(
-                "postgres.host" to "localhost",
-                "postgres.port" to "${postgresql.firstMappedPort}",
-                "postgres.username" to POSTGRES_USR,
-                "postgres.password" to POSTGRES_PWD,
-                "postgres.database" to POSTGRES_DATABASE,
-            ),
-        ).applyTo(configurableApplicationContext)
+        TestPropertyValues
+            .of(
+                mapOf(
+                    "postgres.host" to "localhost",
+                    "postgres.port" to "${postgresql.firstMappedPort}",
+                    "postgres.username" to POSTGRES_USR,
+                    "postgres.password" to POSTGRES_PWD,
+                    "postgres.database" to POSTGRES_DATABASE,
+                ),
+            ).applyTo(configurableApplicationContext)
     }
 }

@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.4.10"
+    kotlin("jvm") version Versions.kotlin
+    id(Plugins.ktLint) version Versions.ktLint
 }
 
 group = "com.planet.assessment"
@@ -14,7 +15,7 @@ repositories {
         url = uri("https://packages.confluent.io/maven/")
         isAllowInsecureProtocol = true
     }
-    maven{
+    maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
 }
@@ -25,7 +26,7 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-allprojects{
+allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
@@ -36,7 +37,7 @@ allprojects{
             url = uri("https://packages.confluent.io/maven/")
             isAllowInsecureProtocol = true
         }
-        maven{
+        maven {
             url = uri("https://plugins.gradle.org/m2/")
         }
     }
@@ -56,7 +57,6 @@ subprojects {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
-
 }
 
 tasks.test {

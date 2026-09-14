@@ -2,8 +2,8 @@ package com.planet.assessment.application.validator
 
 import com.planet.assessment.user.User
 import org.slf4j.LoggerFactory
-import org.apache.commons.validator.routines.EmailValidator as EmailStringValidator
 import org.springframework.stereotype.Service
+import org.apache.commons.validator.routines.EmailValidator as EmailStringValidator
 
 @Service
 class EmailValidator : UserValidator {
@@ -15,7 +15,7 @@ class EmailValidator : UserValidator {
         val email = user.email!!
         val isValid = email.isNotBlank() && emailStringValidator.isValid(email)
         if (!isValid) {
-            if(email.isBlank()) {
+            if (email.isBlank()) {
                 logger.warn("Discarding User with id ${user.id} due to blank email column.")
             } else {
                 logger.warn("Discarding User with id ${user.id} due to invalid email: $email")
@@ -24,7 +24,5 @@ class EmailValidator : UserValidator {
         return isValid
     }
 
-    override fun shouldValidate(user: User): Boolean {
-        return user.email != null
-    }
+    override fun shouldValidate(user: User): Boolean = user.email != null
 }

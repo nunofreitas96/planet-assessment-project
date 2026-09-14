@@ -1,6 +1,5 @@
 package com.planet.assessment.application.formatter
 
-import com.planet.assessment.application.TestUtils
 import com.planet.assessment.application.TestUtils.ALT_CSV_LINE
 import com.planet.assessment.application.TestUtils.ALT_EMAIL
 import com.planet.assessment.application.TestUtils.ALT_NAME
@@ -13,21 +12,22 @@ import com.planet.assessment.application.TestUtils.NAME_COLUMN
 import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.column.ExportColumn
 import com.planet.assessment.user.User
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.core.io.Resource
 
 class TxtUserFormatterTest {
-
     private val formatter = TxtUserFormatter()
 
     @Test
     fun `format should produce plain text with header and rows`() {
         val columns = listOf(ExportColumn.ID, ExportColumn.NAME, ExportColumn.EMAIL)
-        val users = listOf(
-            buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
-            buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL)
-        )
+        val users =
+            listOf(
+                buildUser(id = 1L, name = DEFAULT_NAME, email = DEFAULT_EMAIL),
+                buildUser(id = 2L, name = ALT_NAME, email = ALT_EMAIL),
+            )
 
         val resource: Resource = formatter.format(users, columns)
         val text = resource.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
