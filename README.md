@@ -104,7 +104,7 @@ As stated previously, due to some personal issues that took more time to resolve
 Hence, there are certain improvements I would make to this project in order to make it a more robust service. They are as follows:
 
 ### Change id to be UUID instead of long
-Ids shouldn't be Longs, and the usage of UUID would ensure a much more solid private key.
+Ids shouldn't be Longs, and the usage of UUID would ensure a much more solid primary key.
 
 ### More expressive error and discard responses in the API
 
