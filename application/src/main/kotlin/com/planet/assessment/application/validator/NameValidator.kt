@@ -1,6 +1,8 @@
 package com.planet.assessment.application.validator
 
 import com.planet.assessment.user.User
+import com.planet.assessment.user.UserDiscardReason
+import com.planet.assessment.user.UserValidationResult
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -8,13 +10,14 @@ import org.springframework.stereotype.Service
 class NameValidator : UserValidator {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun validate(user: User): Boolean {
+    override fun validate(user: User): UserValidationResult {
         val name = user.name!!
         val isValid = name.isNotBlank()
         if (!isValid) {
             logger.warn("Discarding User with id ${user.id} due to blank name column.")
+            return UserValidationResult(user.id, false, UserDiscardReason.BLANK_NAME)
         }
-        return isValid
+        return UserValidationResult(user.id, true)
     }
 
     override fun shouldValidate(user: User): Boolean = user.name != null
