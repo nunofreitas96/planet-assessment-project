@@ -101,10 +101,10 @@ class UserFileControllerTest {
         val resource = ByteArrayResource("data".toByteArray())
         whenever(retrieval.retrieveUsers(eq(DomainExportFormat.CSV), any())).thenReturn(resource)
 
-        val result = controller.exportData(ExportFormat.csv, listOf("id"))
+        val result = controller.exportData(ExportFormat.CSV, listOf("id"))
 
         assertEquals(HttpStatus.OK, result.statusCode)
-        assertEquals(ExportFormat.csv.toMediaType().toString(), result.headers.contentType.toString())
+        assertEquals(ExportFormat.CSV.toMediaType().toString(), result.headers.contentType.toString())
         verify(retrieval).retrieveUsers(eq(DomainExportFormat.CSV), any())
     }
 }

@@ -87,7 +87,7 @@ class UserFileControllerTest : BaseIntegrationTest() {
         mockMvc
             .perform(
                 get(PATH_EXPORT_DATA)
-                    .param("format", "csv")
+                    .param("format", "CSV")
                     .param("columns", "id,name,email"),
             ).andExpect(status().isOk)
             .andExpect { result ->

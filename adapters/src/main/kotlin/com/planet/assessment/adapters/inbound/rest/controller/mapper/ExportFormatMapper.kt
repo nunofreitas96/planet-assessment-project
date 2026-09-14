@@ -7,17 +7,17 @@ import com.planet.assessment.format.ExportFormat as DomainExportFormat
 object ExportFormatMapper {
     fun ExportFormat.toDomainExportFormat(): DomainExportFormat =
         when (this) {
-            ExportFormat.csv -> DomainExportFormat.CSV
-            ExportFormat.txt -> DomainExportFormat.TXT
-            ExportFormat.xls -> DomainExportFormat.XLS
-            ExportFormat.xlsx -> DomainExportFormat.XLSX
+            ExportFormat.CSV -> DomainExportFormat.CSV
+            ExportFormat.TXT -> DomainExportFormat.TXT
+            ExportFormat.XLS -> DomainExportFormat.XLS
+            ExportFormat.XLSX -> DomainExportFormat.XLSX
         }
 
     fun ExportFormat.toMediaType(): MediaType =
         when (this) {
-            ExportFormat.csv -> MediaType.parseMediaType("text/csv")
-            ExportFormat.txt -> MediaType.TEXT_PLAIN
-            ExportFormat.xls -> MediaType.parseMediaType("application/vnd.ms-excel")
-            ExportFormat.xlsx -> MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            ExportFormat.CSV -> MediaType.parseMediaType("text/csv")
+            ExportFormat.TXT -> MediaType.TEXT_PLAIN
+            ExportFormat.XLS -> MediaType.parseMediaType("application/vnd.ms-excel")
+            ExportFormat.XLSX -> MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
 }

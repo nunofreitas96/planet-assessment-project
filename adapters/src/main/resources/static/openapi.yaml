@@ -147,8 +147,8 @@ components:
     ExportFormat:
       type: string
       enum:
-        - csv
-        - txt
-        - xls
-        - xlsx
+        - CSV
+        - TXT
+        - XLS
+        - XLSX
       description: Supported export file formats.

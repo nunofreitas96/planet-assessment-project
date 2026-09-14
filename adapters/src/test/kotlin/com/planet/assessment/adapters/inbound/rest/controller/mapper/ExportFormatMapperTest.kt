@@ -16,19 +16,19 @@ class ExportFormatMapperTest {
         @JvmStatic
         fun provideDomainFormats(): Stream<Arguments> =
             Stream.of(
-                Arguments.of(ExportFormat.csv, DomainExportFormat.CSV),
-                Arguments.of(ExportFormat.txt, DomainExportFormat.TXT),
-                Arguments.of(ExportFormat.xls, DomainExportFormat.XLS),
-                Arguments.of(ExportFormat.xlsx, DomainExportFormat.XLSX),
+                Arguments.of(ExportFormat.CSV, DomainExportFormat.CSV),
+                Arguments.of(ExportFormat.TXT, DomainExportFormat.TXT),
+                Arguments.of(ExportFormat.XLS, DomainExportFormat.XLS),
+                Arguments.of(ExportFormat.XLSX, DomainExportFormat.XLSX),
             )
 
         @JvmStatic
         fun provideMediaTypes(): Stream<Arguments> =
             Stream.of(
-                Arguments.of(ExportFormat.csv, "text/csv"),
-                Arguments.of(ExportFormat.txt, MediaType.TEXT_PLAIN.toString()),
-                Arguments.of(ExportFormat.xls, "application/vnd.ms-excel"),
-                Arguments.of(ExportFormat.xlsx, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+                Arguments.of(ExportFormat.CSV, "text/csv"),
+                Arguments.of(ExportFormat.TXT, MediaType.TEXT_PLAIN.toString()),
+                Arguments.of(ExportFormat.XLS, "application/vnd.ms-excel"),
+                Arguments.of(ExportFormat.XLSX, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
             )
     }
 
