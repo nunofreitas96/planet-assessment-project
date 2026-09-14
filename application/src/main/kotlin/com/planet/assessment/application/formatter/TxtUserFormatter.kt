@@ -11,26 +11,24 @@ import org.springframework.stereotype.Component
 
 @Component
 class TxtUserFormatter : UserFormatterPort {
-
     override val format = TXT
 
     override fun format(
         users: List<User>,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource {
+        val content =
+            buildString {
+                appendLine(columns.joinToString(",") { it.name })
 
-        val content = buildString {
-
-            appendLine(columns.joinToString(",") { it.name })
-
-            users.forEach { user ->
-                appendLine(
-                    columns.joinToString(",") {
-                        user.valueOf(it)?.toString() ?: ""
-                    }
-                )
+                users.forEach { user ->
+                    appendLine(
+                        columns.joinToString(",") {
+                            user.valueOf(it)?.toString() ?: ""
+                        },
+                    )
+                }
             }
-        }
 
         return ByteArrayResource(content.toByteArray(Charsets.UTF_8))
     }

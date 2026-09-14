@@ -17,7 +17,10 @@ import java.io.OutputStreamWriter
 class CsvUserFormatter : UserFormatterPort {
     override val format = CSV
 
-    override fun format(users: List<User>, columns: List<ExportColumn>): Resource {
+    override fun format(
+        users: List<User>,
+        columns: List<ExportColumn>,
+    ): Resource {
         val output = ByteArrayOutputStream()
 
         val columnsString = columns.map { it.name }.toTypedArray()
@@ -27,11 +30,11 @@ class CsvUserFormatter : UserFormatterPort {
                 CSVFormat.DEFAULT
                     .builder()
                     .setHeader(*columnsString)
-                    .get()
+                    .get(),
             ).use { printer ->
                 users.forEach { user ->
                     printer.printRecord(
-                        columns.map { user.valueOf(it) }
+                        columns.map { user.valueOf(it) },
                     )
                 }
             }

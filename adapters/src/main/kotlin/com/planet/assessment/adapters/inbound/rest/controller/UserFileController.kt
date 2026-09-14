@@ -3,18 +3,14 @@ package com.planet.assessment.adapters.inbound.rest.controller
 import com.planet.assessment.adapters.inbound.rest.controller.mapper.ExportFormatMapper.toDomainExportFormat
 import com.planet.assessment.adapters.inbound.rest.controller.mapper.ExportFormatMapper.toMediaType
 import com.planet.assessment.adapters.inbound.rest.controller.parser.UserParser.parseUsers
-import com.planet.assessment.application.exception.MissingColumnValueException
 import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.inbound.service.UserRetrievalServicePort
 import com.planet.assessment.column.ExportColumn
-import com.planet.assessment.user.User
 import com.planetassessment.adapters.api.UserFileApi
 import com.planetassessment.adapters.model.ExportFormat
 import com.planetassessment.adapters.model.UploadResponse
 import com.planetassessment.adapters.model.UploadResponse.Status
 import io.micrometer.observation.annotation.Observed
-import org.apache.commons.csv.CSVFormat
-import org.apache.commons.csv.CSVRecord
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -27,54 +23,58 @@ import org.springframework.web.server.ResponseStatusException
 @RestController
 class UserFileController(
     private val userProcessingServicePort: UserProcessingServicePort,
-    private val userRetrievalServicePort: UserRetrievalServicePort
+    private val userRetrievalServicePort: UserRetrievalServicePort,
 ) : UserFileApi {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @Observed(name = "import.csv")
     override fun importCsv(file: MultipartFile): ResponseEntity<UploadResponse> {
         logger.info("Received file: ${file.originalFilename}, size: ${file.size} bytes")
-        try{
+        try {
             val users = parseUsers(file)
             userProcessingServicePort.process(users)
 
             return ResponseEntity.ok(UploadResponse(status = Status.success, message = "File uploaded successfully"))
-        }
-        catch (e: ResponseStatusException){
+        } catch (e: ResponseStatusException) {
             logger.error("Error while importing CSV with invalid format:\n" + e.message)
             throw e
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             logger.error("Error occurred while processing file: ${file.originalFilename}", e)
             throw ResponseStatusException(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Error occurred while processing file",
-                e
+                e,
             )
         }
     }
 
-    override fun exportData(format: ExportFormat, columns: List<String>): ResponseEntity<Resource> {
+    override fun exportData(
+        format: ExportFormat,
+        columns: List<String>,
+    ): ResponseEntity<Resource> {
         logger.info(
-            "Received request to export ${format.value} file with columns ${columns.joinToString(",")}"
+            "Received request to export ${format.value} file with columns ${columns.joinToString(",")}",
         )
 
         try {
             validateRequestedColumns(columns)
-            val selectedColumns = columns.map { column ->
-                ExportColumn.entries
-                    .firstOrNull { it.name == column.uppercase() }
-                    ?: throw ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        "Invalid column requested: $column. Allowed: ${ExportColumn.entries.joinToString { it.name }}"
-                    )
-            }
+            val selectedColumns =
+                columns.map { column ->
+                    ExportColumn.entries
+                        .firstOrNull { it.name == column.uppercase() }
+                        ?: throw ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "Invalid column requested: $column. Allowed: ${ExportColumn.entries.joinToString { it.name }}",
+                        )
+                }
 
             val domainFormat = format.toDomainExportFormat()
             val resource = userRetrievalServicePort.retrieveUsers(domainFormat, selectedColumns)
 
             val mediaType = format.toMediaType()
-            return ResponseEntity.ok().contentType(mediaType)
+            return ResponseEntity
+                .ok()
+                .contentType(mediaType)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=export.${format.value}")
                 .body(resource)
         } catch (e: ResponseStatusException) {
@@ -85,7 +85,7 @@ class UserFileController(
             throw ResponseStatusException(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Error occurred while exporting file",
-                e
+                e,
             )
         }
     }
@@ -97,11 +97,8 @@ class UserFileController(
                 .firstOrNull { it.name == normalized }
                 ?: throw ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Invalid column requested : $column. Allowed: ${ExportColumn.entries.joinToString { it.name }}"
+                    "Invalid column requested : $column. Allowed: ${ExportColumn.entries.joinToString { it.name }}",
                 )
         }
-
     }
-
-
 }

@@ -2,13 +2,14 @@ package com.planet.assessment.application.validator
 
 import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.buildUser
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 class UserValidatorFactoryTest {
-
     @Test
     fun `getValidatorList returns only validators that shouldValidate the user`() {
         val v1 = mock<UserValidator>()

@@ -22,7 +22,5 @@ class AgeValidator : UserValidator {
         return isValid
     }
 
-    override fun shouldValidate(user: User): Boolean {
-        return user.age != null
-    }
+    override fun shouldValidate(user: User): Boolean = user.age != null
 }

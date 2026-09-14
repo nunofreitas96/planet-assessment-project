@@ -14,11 +14,10 @@ import kotlin.collections.forEachIndexed
 
 @Component
 class ExcelTypeUserFormatter : ExcelTypeUserFormatterPort {
-
     override fun format(
         workbook: Workbook,
         users: List<User>,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource {
         workbook.use {
             val sheet = workbook.createSheet("Users")
@@ -35,7 +34,7 @@ class ExcelTypeUserFormatter : ExcelTypeUserFormatterPort {
                 columns.forEachIndexed { columnIndex, column ->
                     setCellValue(
                         row.createCell(columnIndex),
-                        user.valueOf(column)
+                        user.valueOf(column),
                     )
                 }
             }
@@ -49,7 +48,7 @@ class ExcelTypeUserFormatter : ExcelTypeUserFormatterPort {
 
     private fun setCellValue(
         cell: Cell,
-        value: Any?
+        value: Any?,
     ) {
         when (value) {
             null -> cell.setBlank()

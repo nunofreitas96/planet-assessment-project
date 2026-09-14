@@ -1,7 +1,6 @@
 package com.planet.assessment.adapters
 
 object TestUtils {
-
     const val DEFAULT_NAME = "John"
     const val ALT_NAME: String = "Bob"
     const val DEFAULT_EMAIL = "john@example.com"
@@ -21,6 +20,4 @@ object TestUtils {
     const val FILE_NAME = "file"
     const val ORIGINAL_FILE_NAME = "customers.csv"
     const val CONTENT_TYPE = "text/csv"
-
-
 }

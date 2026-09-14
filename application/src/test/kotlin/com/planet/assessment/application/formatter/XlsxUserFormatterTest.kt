@@ -4,8 +4,8 @@ import com.planet.assessment.application.TestUtils.DEFAULT_NAME
 import com.planet.assessment.application.TestUtils.buildUser
 import com.planet.assessment.application.port.inbound.service.ExcelTypeUserFormatterPort
 import com.planet.assessment.column.ExportColumn
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
@@ -18,7 +18,6 @@ import org.springframework.core.io.ByteArrayResource
 import kotlin.test.assertTrue
 
 class XlsxUserFormatterTest {
-
     private val delegate = mock<ExcelTypeUserFormatterPort>()
     private val formatter = XlsxUserFormatter(delegate)
 

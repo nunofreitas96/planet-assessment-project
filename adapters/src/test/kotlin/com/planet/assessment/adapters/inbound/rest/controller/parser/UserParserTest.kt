@@ -18,7 +18,6 @@ import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.server.ResponseStatusException
 
 class UserParserTest {
-
     @Test
     fun `parseUsers should parse valid CSV into users`() {
         val file = MockMultipartFile(FILE_NAME, ORIGINAL_FILE_NAME, CONTENT_TYPE, CSV_TEXT.toByteArray())
@@ -50,7 +49,8 @@ class UserParserTest {
 
         assertThrows<ResponseStatusException> {
             UserParser.parseUsers(file)
-        } }
+        }
+    }
 
     @Test
     fun `parseUsers should skip records with invalid id and parse others`() {

@@ -2,7 +2,6 @@ package com.planet.assessment.application.service
 
 import com.planet.assessment.application.port.inbound.service.UserProcessingServicePort
 import com.planet.assessment.application.port.outbound.persistence.UserPersistencePort
-import com.planet.assessment.application.validator.UserValidatorBeanFactory
 import com.planet.assessment.application.validator.UserValidatorFactory
 import com.planet.assessment.user.User
 import org.springframework.stereotype.Service
@@ -10,18 +9,20 @@ import org.springframework.stereotype.Service
 @Service
 class UserProcessingService(
     private val userPersistencePort: UserPersistencePort,
-    private val userValidatorFactory: UserValidatorFactory
+    private val userValidatorFactory: UserValidatorFactory,
 ) : UserProcessingServicePort {
-
     private val logger = org.slf4j.LoggerFactory.getLogger(this::class.java)
 
     override fun process(users: List<User>) {
         val validators = userValidatorFactory.getValidatorList(users.first())
 
         users.forEach { user ->
-            if(!validators.all { validator ->
-                validator.validate(user)
-            }) return@forEach
+            if (!validators.all { validator ->
+                    validator.validate(user)
+                }
+            ) {
+                return@forEach
+            }
 
             val existingUser = userPersistencePort.findById(user.id)
             if (existingUser != null) {
@@ -37,14 +38,13 @@ class UserProcessingService(
     private fun consolidateUser(
         existingUser: User,
         newUser: User,
-    ) : User{
-        return User(
+    ): User =
+        User(
             id = existingUser.id,
             name = newUser.name ?: existingUser.name,
             email = newUser.email ?: existingUser.email,
             age = newUser.age ?: existingUser.age,
             country = newUser.country ?: existingUser.country,
-            phone = newUser.phone ?: existingUser.phone
+            phone = newUser.phone ?: existingUser.phone,
         )
-    }
 }

@@ -9,16 +9,15 @@ import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 
 @Service
-class UserRetrievalService (
+class UserRetrievalService(
     private val formatters: List<UserFormatterPort>,
     private val userPersistencePort: UserPersistencePort,
 ) : UserRetrievalServicePort {
-
     private val formatterByExportFormat = formatters.associateBy { it.format }
 
     override fun retrieveUsers(
         format: ExportFormat,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource {
         val users = userPersistencePort.findAll()
 

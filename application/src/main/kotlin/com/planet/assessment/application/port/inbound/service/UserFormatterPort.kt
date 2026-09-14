@@ -6,11 +6,10 @@ import com.planet.assessment.user.User
 import org.springframework.core.io.Resource
 
 interface UserFormatterPort {
-
     val format: ExportFormat
 
     fun format(
         users: List<User>,
-        columns: List<ExportColumn>
+        columns: List<ExportColumn>,
     ): Resource
 }

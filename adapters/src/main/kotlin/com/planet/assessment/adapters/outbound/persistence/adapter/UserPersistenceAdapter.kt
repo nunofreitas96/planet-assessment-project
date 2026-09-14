@@ -9,18 +9,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserPersistenceAdapter(
-    private val userRepository: UserRepository
-): UserPersistencePort {
-    override fun save(user: User): User {
-        return userRepository.save(user.toEntity()).toInternalModel()
-    }
+    private val userRepository: UserRepository,
+) : UserPersistencePort {
+    override fun save(user: User): User = userRepository.save(user.toEntity()).toInternalModel()
 
-    override fun findById(id: Long): User? {
-        return userRepository.findById(id).orElse(null)?.toInternalModel()
-    }
+    override fun findById(id: Long): User? = userRepository.findById(id).orElse(null)?.toInternalModel()
 
-    override fun findAll(): List<User> {
-        return userRepository.findAll().map { it.toInternalModel() }
-    }
-
+    override fun findAll(): List<User> = userRepository.findAll().map { it.toInternalModel() }
 }

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class CountryValidator : UserValidator  {
+class CountryValidator : UserValidator {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun validate(user: User): Boolean {
@@ -17,7 +17,5 @@ class CountryValidator : UserValidator  {
         return isValid
     }
 
-    override fun shouldValidate(user: User): Boolean {
-        return user.country != null
-    }
+    override fun shouldValidate(user: User): Boolean = user.country != null
 }
