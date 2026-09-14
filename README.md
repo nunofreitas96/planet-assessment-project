@@ -76,7 +76,6 @@ This application contains logs that express the following:
 - Discarded User due to blank, invalid or missing value
 - Bad Requests for both endpoints
 - Reception of API requests
-- 
 
 ## API Endpoints
 
@@ -133,3 +132,7 @@ For the export, similarly, I would use a streaming writer that writes each row t
 ### Addition of a cache and better indexing
 Due to the potentiality of the same query being performed multiple times to the DB from the Export, adding a cache seems ideal, reducing query times, in case the table gets too large.
 On top of it, if a specific set of columns was noticed to be requested frequently adding a index for that kind of call could likely speed up querying times significantly.
+
+### More extensive integration testing, and addition of end-to-end and mutation tests
+This service has heavy coverage from unit tests, and has a small suite of integration tests to ensure the functionality of the API. However, I feel like more integration tests could have been made, especially ones that don't mock database calls.
+In addition, this service would benefit from end-to-end testing to ensure the functionality of it through and through, and mutation testing to ensure that the inputs from the REST API are properly handled.
