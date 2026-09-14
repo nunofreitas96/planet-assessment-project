@@ -125,7 +125,7 @@ While I decided to maintain the logic of parsing the CSV in the adapter domain, 
 As it is, this service could become vulnerable to SQL Injection, and so, making it a list of an object created via Enum would be more appropriate
 
 ### Alter Import and Export logic to be able to handle bigger loads
-The service as was created was not made to be able to handle CSVs with tens of millions of rows, nor would it perform well if after a long period, the user table had that number of rows to be exported,
+The service as was created was not made to be able to handle CSVs with tens of millions of rows, nor would it perform well if after a long period, if the user table had that many number of rows to be exported.
 In order to solve this, instead of materializing and searching for users in the direct way it's currently handled, for import I would use a streaming reader (probably via a specific CSV streaming library) or insert in the database in batches, instead of one by one as it is being done.
 For the export, similarly, I would use a streaming writer that writes each row to the CSV and TXT. Apache POI already handles this for XLSX so it wouldn't be as necessary. XLS however due to being legacy has a hard cap of 65536 row limit at a time, making large exports difficult.
 
